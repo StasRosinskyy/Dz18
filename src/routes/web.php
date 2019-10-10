@@ -82,3 +82,11 @@ Route::get('/tags_1/{tag}/edit', 'TagController@edit')->name('tags.edit');
 Route::put('/tags_1/{tag}', 'TagController@update')->name('tags.update');
 Route::delete('/tags_1/{tag}', 'TagController@destroy')->name('tags.destroy');
 
+Route::get('/posts_1', 'PostController@index')->name('posts.index');
+Route::get('/posts_1/create', 'PostController@create')->name('posts.create');
+Route::post('/posts_1/create', 'PostController@store')->name('posts.store');
+Route::get('/posts_1/{post}', 'PostController@show')->name('posts.show');
+Route::get('/posts_1/{post}/edit', 'PostController@edit')->name('posts.edit');
+Route::put('/posts_1/{post}', 'PostController@update')->name('posts.update');
+Route::delete('/posts_1/{post}', 'PostController@destroy')->name('posts.destroy');
+

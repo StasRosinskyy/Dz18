@@ -1,14 +1,23 @@
 @extends('loyout')
 @section('content')
+
 <form method="POST" action="{{route('categories.store')}}">
-    <p align="center">Добавить Категорию <br>
-    <input type="text" name="name" />
-    <br>
-    <input type="text" name="slug" />
-    <br>
-    <input type="submit" name="crete" />
+    <ul align="center">Добавить Категорию <br>
+        @if($errors->has('name'))
+            @foreach($errors->get('name') as $error)
+                {{$error}}
+            @endforeach
+            @endif
+        <li><input type="text" name="name" value="{{@old('name')}}"/> </li>
+        @if($errors->has('slug'))
+            @foreach($errors->get('slug') as $error)
+                {{$error}}
+            @endforeach
+        @endif
+        <li><input type="text" name="slug" value="{{@old('slug')}}"/></li>
+        <li><input type="submit" name="crete" /></li>
+    </ul>
     @csrf
-    </p>
 </form>
 
 @endsection;

@@ -5,18 +5,19 @@
     <br>
 
 <br>
-<table>
+<table border="1">
 @foreach($tags as $tag)
-    {{$tag->id}}
-    {{$tag->name}} -
-    {{$tag->slug}}
-    <form method="POST" action="{{route('tags.destroy', $tag)}}">
-        @method('DELETE')
-        <input type="submit" value="X">
+    <tr align="center">
+    <td>{{$tag->id}}</td>
+    <td> {{$tag->name}}</td>
+    <td> {{$tag->slug}}</td>
+    <td><a href="{{route('tags.edit', $tag->id)}}">Update</a></td>
+    <td><form method="POST" action="{{route('tags.destroy', $tag)}}">
+    @method('DELETE')
+    <td> <input type="submit" value="X"></td>
         @csrf
+    </tr>
     </form>
-        <br>
-    
     @endforeach
     </table>
     @endsection;
