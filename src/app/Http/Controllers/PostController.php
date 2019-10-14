@@ -18,7 +18,7 @@ class postController
             'user_id' => 'required|integer',
             'category_id' => 'required|integer',
             'tag_id' => 'required|integer',
-            'title' => 'required|min:1|max:25',
+            'title' => 'required|min:1|max:25|unique:posts',
             'preview_text' => 'required|min:4|max:25',
             'preview_image' => 'required',
             'preview_cover' => 'required',
@@ -34,7 +34,12 @@ class postController
         $post->body = $validatedData['body'];
         $post->tag()->tag_id = $validatedData['tag_id'];
         $post->save();
-        return redirect()->route('posts.index');
+        $text = 'Id New post - '. $post->id . " Title New Post - " . $validatedData['title'] .
+            " Preview text - " . $validatedData['preview_text'];
+        $url = "https://api.telegram.org/bot737755801:AAFtGIFwFbTPen-bCoZ1WhwkU5_1GsET4PY/sendMessage?chat_id=363333093&text=" . $text;
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('POST', $url);
+        return  redirect()->route('posts.index');
     }
     public function show(\App\Post $post){
 
@@ -63,7 +68,7 @@ class postController
         $post->preview_image = $validatedData['preview_image'];
         $post->preview_cover = $validatedData['preview_cover'];
         $post->body = $validatedData['body'];
-        $post->save();
+         $post->save();
         return redirect()->route('posts.index');
     }
     public function destroy(\App\Post $post){
