@@ -113,10 +113,10 @@ Route::post('login', function(Request $request){
 Route::get('logout', function(){
     \Illuminate\Support\Facades\Auth::logout();
     return redirect()->route('home');
-});
+})->name('logout');
 Route::get('member', function(){
     $user = \Illuminate\Support\Facades\Auth::user();
-    dd($user);
+    return redirect()->route('home');
 })->name('auth.member');
 //
 

@@ -1,4 +1,7 @@
-<!doctype html>
+@extends('loyout')
+@section('content')
+    
+    <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +11,8 @@
     <title>Login</title>
 </head>
 <body>
-<form method="post" action="{{route('login.auth')}}">
+<div align="center">
+<form method="post" action="{{route('login.auth')}}" >
     @csrf
     @error('email')
     <p>{{$message}}</p>
@@ -19,7 +23,9 @@
     @enderror
     <input type="password" name="password" value="stanislav"><br>
     <input type="submit" name="send" value="Send">
-    
+
 </form>
+</div>
 </body>
 </html>
+@endsection

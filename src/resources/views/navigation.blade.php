@@ -10,6 +10,18 @@
         </li>
         <li><a href="{{ route('about') }}">About</a></li>
         <li><a href="{{ route('contacts') }}">Contact</a></li>
+        <?php if(!\Illuminate\Support\Facades\Auth::user()): ?>
+        <li><a href="{{ route('login') }}">login</a></li>
+        <?php endif ?>
+        <li><a href="{{ route('logout') }}">Logout</a></li>
+        <?php if(!\Illuminate\Support\Facades\Auth::user()): ?>
+        <li><a href="{{ route('registrate') }}">Registrate</a></li>
+        <?php endif ?>
+        <?php if(\Illuminate\Support\Facades\Auth::user()): ?>
+        <?php echo 'Hi, ' . \Illuminate\Support\Facades\Auth::user()->name ?>
+        <?php endif ?>
+        
+        
     </ul>
 
 </div>

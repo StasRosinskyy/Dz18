@@ -1,4 +1,7 @@
-<!doctype html>
+@extends('loyout')
+@section('content')
+    
+    <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +11,7 @@
     <title>Login</title>
 </head>
 <body>
+<div align="center">
 <form method="post" action="{{route('registrate.auth')}}">
     @csrf
     @error('name')
@@ -25,5 +29,7 @@
     <input type="submit" name="send" value="Send">
 
 </form>
+</div>
 </body>
 </html>
+@endsection
