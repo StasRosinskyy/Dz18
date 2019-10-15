@@ -13,7 +13,9 @@
         <?php if(!\Illuminate\Support\Facades\Auth::user()): ?>
         <li><a href="{{ route('login') }}">login</a></li>
         <?php endif ?>
+        <?php if(\Illuminate\Support\Facades\Auth::user()): ?>
         <li><a href="{{ route('logout') }}">Logout</a></li>
+        <?php endif ?>
         <?php if(!\Illuminate\Support\Facades\Auth::user()): ?>
         <li><a href="{{ route('registrate') }}">Registrate</a></li>
         <?php endif ?>
