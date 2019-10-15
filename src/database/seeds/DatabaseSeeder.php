@@ -14,11 +14,12 @@ class DatabaseSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
         $users = [
-            ['name' => 'Stanislav Rosinskyy', 'email' => 'stanislav.rosinskyy@gmail.com', 'password' => 'stanislav',
+            ['name' => 'Stanislav Rosinskyy', 'email' => 'stanislav.rosinskyy@gmail.com', 'password' => \Illuminate\Support\Facades\Hash::make('stanislav'),
                 'remember_token' => \Illuminate\Support\Str::random(10)],
-            ['name' => 'Jhon Doe', 'email' => 'doe@gmail.com', 'password' => 'DeItsMyPassword',
+            ['name' => 'Jhon Doe', 'email' => 'doe@gmail.com', 'password' => \Illuminate\Support\Facades\Hash::make('password'),
                 'remember_token' => \Illuminate\Support\Str::random(10)],
         ];
+        factory(App\User::class, 2)->create();
         $comments = [
             ['user_id' => rand(1, 2), 'post_id' => 1, 'comment' => 'Wow, its...!'],
             ['user_id' => rand(1, 2), 'post_id' => 1, 'comment' => 'Wow, its...!'],

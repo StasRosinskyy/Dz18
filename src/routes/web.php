@@ -12,7 +12,7 @@
 */
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('index');
 })->name('home');
@@ -90,3 +90,52 @@ Route::get('/posts_1/{post}/edit', 'PostController@edit')->name('posts.edit');
 Route::put('/posts_1/{post}', 'PostController@update')->name('posts.update');
 Route::delete('/posts_1/{post}', 'PostController@destroy')->name('posts.destroy');
 
+
+Route::get('login', function(){
+    return view('admin.login');
+})->name('login');
+
+Route::post('login', function(Request $request){
+    $data = $request->validate([
+        'email' => 'required|email|exists:users,email',
+        'password' => 'required|min:4|max:100|'
+    ]);
+    $email = $data['email'];
+    $password = $data['password'];
+    $credentials = [
+        'email' => $email,
+        'password' => $password
+    ];
+    if (\Illuminate\Support\Facades\Auth::attempt($credentials)){
+        return redirect()->route('auth.member');
+    }
+})->name('login.auth');
+Route::get('logout', function(){
+    \Illuminate\Support\Facades\Auth::logout();
+    return redirect()->route('home');
+});
+Route::get('member', function(){
+    $user = \Illuminate\Support\Facades\Auth::user();
+    dd($user);
+})->name('auth.member');
+//
+
+Route::get('registrate', function(){
+    return view('admin.registrate');
+})->name('registrate');
+
+Route::post('registrate', function(Request $request){
+    $data = $request->validate([
+        'name' => 'required|unique:users,name',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:4|max:100|'
+    ]);
+    $new_user = new \App\User;
+    $new_user->name = $data['name'];
+    $new_user->email = $data['email'];
+    $new_user->remember_token = Str::random(40);
+    $new_user->password= \Illuminate\Support\Facades\Hash::make($data['password']);
+    $new_user->save();
+    return redirect()->route('login');
+
+})->name('registrate.auth');
