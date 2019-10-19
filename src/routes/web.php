@@ -66,6 +66,7 @@ Route::get('/posts_author_category/{category}+{author}', function ($category, $a
 })->name('posts_author_category');// для проверки введите ссылку типа
 // http://localhost:8080/public/posts_author_category/1+2
 // использую 1+2 потому что если указывать через / то отваливаются фотки и js, т.к. у меня указан "жесткий" путь к файлам
+
 Route::get('/categories', 'CategoryController@index')->name('categories.index');
 Route::get('/categories/create', 'CategoryController@create')->name('categories.create');
 Route::post('/categories/create', 'CategoryController@store')->name('categories.store');
@@ -125,6 +126,26 @@ Route::get('registrate', function(){
 })->name('registrate');
 
 Route::post('registrate', function(Request $request){
+
+
+    interface LoggerInterface
+    {
+        public function log($message);
+    }
+    class LogController
+    {
+        protected $logger;
+        public function __construct(LoggerInterface $logger)
+        {
+         $this->logger = $logger;
+        }
+        public function logAction()
+        {
+            $this->logger->log('New User!');
+        }
+    }
+
+
     $data = $request->validate([
         'name' => 'required|unique:users,name',
         'email' => 'required|email|unique:users,email',
@@ -135,6 +156,22 @@ Route::post('registrate', function(Request $request){
     $new_user->email = $data['email'];
     $new_user->remember_token = Str::random(40);
     $new_user->password= \Illuminate\Support\Facades\Hash::make($data['password']);
+
+
+    class TelegramAdapter implements LoggerInterface
+    {
+
+        public function log($message)
+        {
+            $url = "https://api.telegram.org/bot737755801:AAFtGIFwFbTPen-bCoZ1WhwkU5_1GsET4PY/sendMessage?chat_id=363333093&text=" . $message;
+            $client = new \GuzzleHttp\Client();
+            $response = $client->request('POST', $url);
+        }
+    }
+    $adapter = new TelegramAdapter();
+    $controller = new LogController($adapter);
+    $controller->logAction();
+
     $new_user->save();
     return redirect()->route('login');
 
